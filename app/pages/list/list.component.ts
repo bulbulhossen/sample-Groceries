@@ -1,20 +1,20 @@
 import {Component, ChangeDetectionStrategy, OnInit} from "angular2/core";
-import {Router} from "angular2/router";
-import {Observable} from "rxjs/Observable";
 
 import * as dialogsModule from "ui/dialogs";
 import {ActionItem} from "ui/action-bar";
 import {TextField} from "ui/text-field";
 import {topmost} from "ui/frame";
-import {WrappedValue} from "data/observable";
 
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
 
+import {GroceryItem} from "./grocery.component";
+
 @Component({
   selector: "list",
   templateUrl: "pages/list/list.html",
-  providers: [GroceryListService]
+  providers: [GroceryListService],
+  directives: [GroceryItem]
 })
 export class ListPage implements OnInit {
   grocery: string;
@@ -23,8 +23,7 @@ export class ListPage implements OnInit {
   private items: Array<Grocery>;
 
   constructor(
-    private _groceryListService: GroceryListService,
-    private router: Router) {
+    private _groceryListService: GroceryListService) {
 
     this.grocery = "";
     this.isLoading = true;

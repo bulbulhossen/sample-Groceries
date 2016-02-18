@@ -8,6 +8,9 @@
         <Label [text]="item.name" class="medium-spacing"></Label>
         <Button text="X" (tap)="delete(item)" col="1" [isEnabled]="!isLoading" class="delete-button"></Button>
       </GridLayout>
+      
+      <!--<grocery-item *ngFor="#item of items" [grocery]="item" [isLoading]="isLoading" 
+        (delete)="delete($event)"></grocery-item>-->
     </StackLayout>
   </ScrollView>
 
