@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, OnInit, ViewChild, ElementRef} from "angular2/core";
+import {OnActivate} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import {TextField} from "ui/text-field";
 import {ActionItem} from "ui/action-bar";
@@ -15,7 +16,7 @@ import {GroceryItem} from "./grocery.component";
   providers: [GroceryListService],
   directives: [GroceryItem]
 })
-export class ListPage implements OnInit {
+export class ListPage implements OnInit, OnActivate {
   grocery: string;
   isLoading: boolean;
   items: Array<Grocery>;
@@ -34,6 +35,13 @@ export class ListPage implements OnInit {
         this.items = groceryList;
         this.isLoading = false;
       });
+  }
+
+  routerOnActivate(nextInstruction, prevInstruction) {
+    var shareItem = new ActionItem();
+    shareItem.text = "share";
+    shareItem.on("tap", () => this.share());
+    topmost().currentPage.actionBar.actionItems.addItem(shareItem);
   }
 
   add() {
@@ -78,4 +86,12 @@ export class ListPage implements OnInit {
         this.isLoading = false;
       });
   }
+
+  share() {
+    // Lazy load the socialShare module 
+    // as it fails it it is loaded before there is an application context in Android.
+    let socialShare: { shareText: (text: string) => void } = require("nativescript-social-share");
+    let listString = this.items.map(item => item.name).join(", ");
+    socialShare.shareText(listString);
+  };
 }
