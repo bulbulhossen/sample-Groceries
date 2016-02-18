@@ -8,6 +8,8 @@ export class GroceryListService {
   constructor(private _http: Http) {}
 
   load() {
+      console.log("loading groceryList ...");
+      
     var headers = new Headers();
     headers.append("Authorization", "Bearer " + Config.token);
 
@@ -23,6 +25,8 @@ export class GroceryListService {
       data.Result.forEach((grocery) => {
         groceryList.push(new Grocery(grocery.Id, grocery.Name));
       });
+
+      console.log("loaded groceryList: " + groceryList.length);
       return groceryList
     });
   }

@@ -28,3 +28,9 @@ ActionBar {
 .medium-spacing {
     margin: 10;
 }
+.delete-button {
+     background-color: #EE540C;
+     font-size: 12;
+     color: white;
+     margin: 0 10;
+}

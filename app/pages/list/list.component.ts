@@ -14,16 +14,12 @@ import {GroceryListService} from "../../shared/grocery/grocery-list.service";
 @Component({
   selector: "list",
   templateUrl: "pages/list/list.html",
-  // TODO: Why is this necessary?
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [GroceryListService]
 })
 export class ListPage implements OnInit {
-  groceryList: Observable<Array<Grocery>>;
   grocery: string;
   isLoading: boolean;
 
-  private subscr;
   private items: Array<Grocery>;
 
   constructor(
@@ -32,19 +28,13 @@ export class ListPage implements OnInit {
 
     this.grocery = "";
     this.isLoading = true;
-
-    // TODO: I have no idea what’s going on here
-    this.groceryList = Observable.create(subscriber => {
-      this.subscr = subscriber;
-      subscriber.next(this.items);
-    });
   }
 
   ngOnInit() {
     this._groceryListService.load()
       .subscribe(groceryList => {
         this.items = groceryList;
-        this.updateList();
+        this.isLoading = false;
       });
   }
 
@@ -59,36 +49,35 @@ export class ListPage implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     // Dismiss the keyboard
     groceryTextField.dismissSoftInput();
 
     this._groceryListService.add(this.grocery)
       .subscribe(
-        groceryObject => {
-          this.items.push(groceryObject);
-          this.updateList();
-          this.grocery = "";
-        },
-        () => {
-          dialogsModule.alert({
-            message: "An error occurred while adding an item to your list.",
-            okButtonText: "OK"
-          });
-          this.grocery = "";
-        }
-      )
+      groceryObject => {
+        this.items.push(groceryObject);
+        this.grocery = "";
+        this.isLoading = false;
+
+      },
+      () => {
+        dialogsModule.alert({
+          message: "An error occurred while adding an item to your list.",
+          okButtonText: "OK"
+        });
+        this.grocery = "";
+        this.isLoading = false;
+      })
   }
 
-  // TODO: Why is this a thing? Shouldn’t the list, like, update itself?
-  updateList() {
-    this.subscr.next(WrappedValue.wrap(this.items));
+  delete(grocery) {
+    this.isLoading = true;
+    this._groceryListService.delete(grocery.id)
+      .subscribe(() => {
+        var index = this.items.indexOf(grocery);
+        this.items.splice(index, 1);
+        this.isLoading = false;
+      });
   }
-
-  //delete(grocery) {
-    //this._groceryListService.delete(grocery.id)
-      //.subscribe(() => {
-        //var index = this.groceryList.indexOf(grocery);
-        //this.groceryList.splice(index, 1);
-      //});
-  //}
 }
