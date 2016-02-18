@@ -1,8 +1,7 @@
-import {Component, ChangeDetectionStrategy, OnInit} from "angular2/core";
-
+import {Component, ChangeDetectionStrategy, OnInit, ViewChild, ElementRef} from "angular2/core";
 import * as dialogsModule from "ui/dialogs";
-import {ActionItem} from "ui/action-bar";
 import {TextField} from "ui/text-field";
+import {ActionItem} from "ui/action-bar";
 import {topmost} from "ui/frame";
 
 import {Grocery} from "../../shared/grocery/grocery";
@@ -19,8 +18,8 @@ import {GroceryItem} from "./grocery.component";
 export class ListPage implements OnInit {
   grocery: string;
   isLoading: boolean;
-
-  private items: Array<Grocery>;
+  items: Array<Grocery>;
+  @ViewChild("groceryText") groceryText: ElementRef;
 
   constructor(
     private _groceryListService: GroceryListService) {
@@ -39,7 +38,6 @@ export class ListPage implements OnInit {
 
   add() {
     // Check for empty submissions
-    var groceryTextField = <TextField>topmost().currentPage.getViewById("grocery");
     if (this.grocery.trim() === "") {
       dialogsModule.alert({
         message: "Enter a grocery item",
@@ -47,11 +45,12 @@ export class ListPage implements OnInit {
       });
       return;
     }
-
-    this.isLoading = true;
+    
     // Dismiss the keyboard
+    let groceryTextField = <TextField>this.groceryText.nativeElement;
     groceryTextField.dismissSoftInput();
 
+    this.isLoading = true;
     this._groceryListService.add(this.grocery)
       .subscribe(
       groceryObject => {

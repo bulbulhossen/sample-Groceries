@@ -1,5 +1,5 @@
 <GridLayout rows="auto, *" columns="2*, *">
-  <TextField id="grocery" [(ngModel)]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
+  <TextField #groceryText [(ngModel)]="grocery" hint="Enter a grocery item" row="0" col="0"></TextField>
   <Button text="Add" (tap)="add()" row="0" col="1" [isEnabled]="!isLoading"></Button>
 
   <ScrollView row="1" colSpan="2">
