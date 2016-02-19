@@ -18,9 +18,6 @@ export class GroceryListService {
     })
     .map(res => res.json())
     .map(data => {
-      // TODO: This shouldn’t be necessary
-      data = JSON.parse(data);
-
       var groceryList = [];
       data.Result.forEach((grocery) => {
         groceryList.push(new Grocery(grocery.Id, grocery.Name));
@@ -43,9 +40,6 @@ export class GroceryListService {
     )
     .map(res => res.json())
     .map(data => {
-      // TODO: This shouldn’t be necessary
-      data = JSON.parse(data);
-
       return new Grocery(data.Result.Id, name);
     });
   }

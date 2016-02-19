@@ -14,3 +14,6 @@ TextField {
 .link {
     border-width: 0;
 }
+.delete-button {
+     border-width: 0;
+}
