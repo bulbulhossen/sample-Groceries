@@ -27,7 +27,10 @@ export class LoginPage {
     this._userService.login(this.user)
       .subscribe(
         () => this._router.navigate(["List"]),
-        (error) => alert(error)
+        (error) => {
+            console.log(error);
+            alert("Login error");
+        }
       );
   }
 

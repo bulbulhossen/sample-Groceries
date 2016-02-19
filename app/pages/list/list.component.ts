@@ -3,7 +3,7 @@ import {OnActivate} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 import {TextField} from "ui/text-field";
 import {ActionItem} from "ui/action-bar";
-import {topmost} from "ui/frame";
+import {Page} from "ui";
 
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
@@ -39,9 +39,15 @@ export class ListPage implements OnInit, OnActivate {
 
   routerOnActivate(nextInstruction, prevInstruction) {
     var shareItem = new ActionItem();
-    shareItem.text = "share";
+    shareItem.text = "SHARE";
     shareItem.on("tap", () => this.share());
-    topmost().currentPage.actionBar.actionItems.addItem(shareItem);
+    
+    if (shareItem.ios) {
+      shareItem.ios.position = "right";
+    }
+    
+    var page = <Page>this.groceryText.nativeElement.page;
+    page.actionBar.actionItems.addItem(shareItem);
   }
 
   add() {
