@@ -5,5 +5,5 @@
   <TextField [(ngModel)]="user.password" id="password" secure="true"  hint="Password"></TextField>
 
   <Button text="Sign in" (tap)="signIn()"></Button>
-  <Button text="Sign up for Groceries" class="link" (tap)="register()"></Button>
+  <Button text="Sign up for Groceries" class="link" [nsRouterLink]="['/Register']"></Button>
 </StackLayout>
