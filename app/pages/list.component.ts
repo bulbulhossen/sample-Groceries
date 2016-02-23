@@ -8,8 +8,8 @@ import {TextField} from "ui/text-field";
 import {topmost} from "ui/frame";
 import {WrappedValue} from "data/observable";
 
-import {Grocery} from "../../shared/grocery/grocery";
-import {GroceryListService} from "../../shared/grocery/grocery-list.service";
+import {Grocery} from "../shared/grocery/grocery";
+import {GroceryListService} from "../shared/grocery/grocery-list.service";
 
 @Component({
   selector: "list",

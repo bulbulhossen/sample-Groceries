@@ -2,8 +2,8 @@ import {Component} from "angular2/core";
 import {Router} from "angular2/router";
 import * as dialogsModule from "ui/dialogs";
 
-import {User} from "../../shared/user/user";
-import {UserService} from "../../shared/user/user.service";
+import {User} from "../shared/user/user";
+import {UserService} from "../shared/user/user.service";
 
 @Component({
   selector: "register",
